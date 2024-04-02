@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 # Configures Nginx server with custom response header
 
-apt -y update
-apt -y install nginx
+# Updating packages
+sudo apt -y update
+sudo apt -y install nginx
 ufw allow 'Nginx HTTP'
+
+# Creating an index page 
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
 header="server_name _;\nadd_header X-Served-By \"$(hostname)\";"
-sed -i "s/server_name _;/$header/" /etc/nginx/sites-enabled/default
+sudo sed -i "s/server_name _;/$header/" /etc/nginx/sites-enabled/default
+
 service nginx restart
